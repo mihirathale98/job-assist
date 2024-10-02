@@ -1,9 +1,6 @@
 import streamlit as st
 import PyPDF2
-from src.models import TogetherModel
-
-model = TogetherModel()
-
+from src.process_resume import preprocess_resume
 # Streamlit file uploader
 st.title("PDF Uploader using PyPDF2")
 
@@ -16,10 +13,18 @@ if uploaded_file is not None:
     # Get number of pages
     num_pages = len(pdf_reader.pages)
     st.write(f"Number of pages: {num_pages}")
-    
+    all_text = ""
     # Extract and display text from each page
     for page_num in range(num_pages):
         page = pdf_reader.pages[page_num]
         text = page.extract_text()
-        st.write(f"### Page {page_num + 1}")
-        st.write(text)
+        all_text += text
+
+    with st.spinner("Preprocessing..."):
+        markdown_resume = preprocess_resume(all_text)
+
+    st.markdown(markdown_resume)
+
+    
+
+

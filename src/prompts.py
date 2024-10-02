@@ -19,8 +19,9 @@ Example Output:
 
 
 Given the following resume text:
-{{raw_resume_text}}
+{raw_resume_text}
 
 Output only the markdown-formatted resume
+
 Output:
 """
